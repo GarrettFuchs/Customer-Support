@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -52,13 +53,17 @@ public class TicketController {
 
     @RequestMapping(value = "/tickets/edit/{id}", method = RequestMethod.GET)
     public String editTicket(Model model,@PathVariable("id") Long id) {
-        // Code here
-        return "redirect:/"; //Remove this line
+        // a new ticket entity is created and is assigned a ticket
+        TicketEntity ticket = ticketService.findById(id);
+        // model.attribute is called to edit the new ticket entity
+        model.addAttribute("ticket", ticket);
+        return "tickets/storeTicket"; //Line changed so that edited ticket can be stored
     }
 
     @RequestMapping(value = "/tickets/delete/{id}", method = RequestMethod.GET)
     public String deleteTicket(@PathVariable("id") Long id) {
-        // Code here
+        // ticket service is called as well as deleteById. The id of an existing ticket is passed to be deleted
+        ticketService.deleteById(id);
         return "redirect:/";
     }
 
